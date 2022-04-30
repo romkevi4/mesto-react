@@ -51,9 +51,9 @@ export default function App() {
 
                 {/*---------- Popup edit profile ----------*/}
                 <PopupWithForm
-                    title={'Редактировать профиль'}
-                    name={'editProfile'}
-                    btnText={'Сохранить'}
+                    title="Редактировать профиль"
+                    name="editProfile"
+                    btnText="Сохранить"
                     isOpen={isEditProfilePopupOpen}
                     onClose={closeAllPopups}
                 >
@@ -89,9 +89,9 @@ export default function App() {
 
                 {/*---------- Popup add card ----------*/}
                 <PopupWithForm
-                    title={'Новое место'}
-                    name={'addCard'}
-                    btnText={'Создать'}
+                    title="Новое место"
+                    name="addCard"
+                    btnText="Создать"
                     isOpen={isAddPlacePopupOpen}
                     onClose={closeAllPopups}
                 >
@@ -125,18 +125,18 @@ export default function App() {
 
                 {/*---------- Popup delete card ----------*/}
                 <PopupWithForm
-                    title={'Вы уверены?'}
-                    name={'deleteCard'}
-                    btnText={'Да'}
+                    title="Вы уверены?"
+                    name="deleteCard"
+                    btnText="Да"
                     onClose={closeAllPopups}
                 />
 
 
                 {/*---------- Popup edit avatar ----------*/}
                 <PopupWithForm
-                    title={'Обновить аватар'}
-                    name={'editAvatar'}
-                    btnText={'Сохранить'}
+                    title="Обновить аватар"
+                    name="editAvatar"
+                    btnText="Сохранить"
                     isOpen={isEditAvatarPopupOpen}
                     onClose={closeAllPopups}
                 >

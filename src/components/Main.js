@@ -21,7 +21,7 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
             .catch(err => {
                 console.error(`Ошибка: ${err}`);
             });
-    });
+    }, []);
 
     return (
         /*=============================== Main ===============================*/
@@ -70,7 +70,7 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
                 {
                     cards.map((card) => {
                         return (
-                            <Card card={card} onCardClick={onCardClick}/>
+                            <Card card={card} onCardClick={onCardClick} key={card._id}/>
                         );
                     })
                 }
