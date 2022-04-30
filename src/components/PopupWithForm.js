@@ -1,3 +1,6 @@
+import React from 'react';
+
+
 export default function PopupWithForm({ title, name, btnText, isOpen, onClose, children }) {
     return (
         /*=============================== Popup with form ===============================*/

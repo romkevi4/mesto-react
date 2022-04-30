@@ -1,11 +1,14 @@
-export default function ImagePopup() {
+import React from 'react';
+
+
+export default function ImagePopup({ card, onClose }) {
     return (
         /*=============================== Popup with image ===============================*/
-        <div className="popup popup_opacity" id="popup-image">
+        <div className={`popup popup_opacity ${Object.keys(card).length > 0 ? 'popup_opened' : ''}`} id="popup-image">
             <div className="popup__container popup__container_size_big">
-                <button aria-label="Закрыть" type="button" className="popup__close-button"/>
-                <img alt="" className="popup__image"/>
-                <p className="popup__text"/>
+                <button onClick={onClose} aria-label="Закрыть" type="button" className="popup__close-button"/>
+                <img src={card.link} alt={card.name} className="popup__image"/>
+                <p className="popup__text">{card.name}</p>
             </div>
         </div>
     );
