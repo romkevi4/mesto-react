@@ -13,4 +13,4 @@
 
 ### GitHub Pages
 
-* [Ссылка на проект](https://romkevi4.github.io/mesto)
+* [Ссылка на проект](https://romkevi4.github.io/mesto-react)
