@@ -60,7 +60,7 @@ export class Api {
             .then(this._processResponseData);
     }
 
-    // Зарпос получения карточек с сервера
+    // Запрос получения карточек с сервера
     getInitialCards() {
         return fetch(`${this._baseUrl}/cards`, {
             method: 'GET',

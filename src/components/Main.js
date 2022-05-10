@@ -1,27 +1,49 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from 'react';
+
 import { api } from '../utils/api';
-import Card from "./Card";
+
+import Card from './Card';
+
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 
 export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
-    const [userName, setUserName] = useState('name');
-    const [userDescription, setUserDescription] = useState('about');
-    const [userAvatar, setUserAvatar] = useState('avatarUrl');
+    const currentUser = useContext(CurrentUserContext);
     const [cards, setCards] = useState([]);
 
     useEffect(() => {
-        Promise.all([api.getUserData(), api.getInitialCards()])
-            .then(([userData, cardsData]) => {
-                setUserName(userData.name);
-                setUserDescription(userData.about);
-                setUserAvatar(userData.avatar);
-
-                setCards(cardsData);
+        api.getInitialCards()
+            .then(res => {
+                setCards(res);
             })
             .catch(err => {
                 console.error(`Ошибка: ${err}`);
             });
     }, []);
+
+    function handleCardLike(card) {
+        // Снова проверяем, есть ли уже лайк на этой карточке
+        const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+        // Отправляем запрос в API и получаем обновлённые данные карточки
+        api.changeLikeCardStatus(card._id, !isLiked)
+            .then((newCard) => {
+                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+            })
+            .catch(err => {
+                console.error(`Ошибка: ${err}`);
+            });
+    }
+
+    function handleCardDelete() {
+        api.changeDeleteCardStatus(card._id, !isLiked)
+            .then((newCard) => {
+                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+            })
+            .catch(err => {
+                console.error(`Ошибка: ${err}`);
+            });
+    }
 
     return (
         /*=============================== Main ===============================*/
@@ -36,14 +58,14 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
                         className="profile__avatar-btn"
                     >
                         <img
-                            src={userAvatar}
+                            src={currentUser.avatar}
                             alt="Аватар"
                             className="profile__avatar"
                         />
                     </button>
                     <div className="profile__info">
                         <div className="profile__box">
-                            <h1 className="profile__name">{userName}</h1>
+                            <h1 className="profile__name">{currentUser.name}</h1>
                             <button
                                 aria-label="Редактировать"
                                 type="button"
@@ -52,7 +74,7 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
                             >
                             </button>
                         </div>
-                        <p className="profile__about-me">{userDescription}</p>
+                        <p className="profile__about-me">{currentUser.about}</p>
                     </div>
                 </div>
                 <button
@@ -70,7 +92,13 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
                 {
                     cards.map((card) => {
                         return (
-                            <Card card={card} onCardClick={onCardClick} key={card._id}/>
+                            <Card
+                                card={card}
+                                onCardClick={onCardClick}
+                                onCardLike={handleCardLike}
+                                onCardDelete={handleCardDelete}
+                                key={card._id}
+                            />
                         );
                     })
                 }
