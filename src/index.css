@@ -40,9 +40,12 @@
 @import url(./blocks/element/__title/element__title.css);
 @import url(./blocks/element/__like-info/element__like-info.css);
 @import url(./blocks/element/__like-button/element__like-button.css);
+@import url(./blocks/element/__like-button/_inactive/element__like-button_inactive.css);
 @import url(./blocks/element/__like-button/_active/element__like-button_active.css);
 @import url(./blocks/element/__like-number/element__like-number.css);
 @import url(./blocks/element/__delete-button/element__delete-button.css);
+@import url(./blocks/element/__delete-button/_visible/element__delete-button_visible.css);
+@import url(./blocks/element/__delete-button/_hidden/element__delete-button_hidden.css);
 
 /* Popup */
 @import url(./blocks/popup/popup.css);

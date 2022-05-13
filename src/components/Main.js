@@ -1,54 +1,26 @@
-import React, { useState, useEffect, useContext } from 'react';
-
-import { api } from '../utils/api';
+import React, { useContext } from 'react';
 
 import Card from './Card';
 
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
 
-export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
+
+
+export default function Main({
+        cards,
+        onEditProfile,
+        onAddPlace,
+        onEditAvatar,
+        onCardClick,
+        onCardLike,
+        onCardDelete
+    }) {
     const currentUser = useContext(CurrentUserContext);
-    const [cards, setCards] = useState([]);
 
-    useEffect(() => {
-        api.getInitialCards()
-            .then(res => {
-                setCards(res);
-            })
-            .catch(err => {
-                console.error(`Ошибка: ${err}`);
-            });
-    }, []);
-
-    function handleCardLike(card) {
-        // Снова проверяем, есть ли уже лайк на этой карточке
-        const isLiked = card.likes.some(i => i._id === currentUser._id);
-
-        // Отправляем запрос в API и получаем обновлённые данные карточки
-        api.changeLikeCardStatus(card._id, !isLiked)
-            .then((newCard) => {
-                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-            })
-            .catch(err => {
-                console.error(`Ошибка: ${err}`);
-            });
-    }
-
-    function handleCardDelete() {
-        api.changeDeleteCardStatus(card._id, !isLiked)
-            .then((newCard) => {
-                setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-            })
-            .catch(err => {
-                console.error(`Ошибка: ${err}`);
-            });
-    }
 
     return (
-        /*=============================== Main ===============================*/
         <main className="main">
-            {/*---------- Profile ----------*/}
             <section className="profile">
                 <div className="profile__card">
                     <button
@@ -65,7 +37,9 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
                     </button>
                     <div className="profile__info">
                         <div className="profile__box">
-                            <h1 className="profile__name">{currentUser.name}</h1>
+                            <h1 className="profile__name">
+                                {currentUser.name}
+                            </h1>
                             <button
                                 aria-label="Редактировать"
                                 type="button"
@@ -74,7 +48,9 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
                             >
                             </button>
                         </div>
-                        <p className="profile__about-me">{currentUser.about}</p>
+                        <p className="profile__about-me">
+                            {currentUser.about}
+                        </p>
                     </div>
                 </div>
                 <button
@@ -86,8 +62,6 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
                 </button>
             </section>
 
-
-            {/*---------- Elements ----------*/}
             <section className="elements">
                 {
                     cards.map((card) => {
@@ -95,8 +69,8 @@ export default function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardCl
                             <Card
                                 card={card}
                                 onCardClick={onCardClick}
-                                onCardLike={handleCardLike}
-                                onCardDelete={handleCardDelete}
+                                onCardLike={onCardLike}
+                                onCardDelete={onCardDelete}
                                 key={card._id}
                             />
                         );

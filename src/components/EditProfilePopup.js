@@ -1,8 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+
 import PopupWithForm from './PopupWithForm';
 
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
 
-export default function EditProfilePopup({ isOpen, onClose }) {
+
+
+
+export default function EditProfilePopup({ isOpen, onClose, onUpdateUser, onReset }) {
+    const currentUser = useContext(CurrentUserContext);
+
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+
+
+    useEffect(() => {
+        setName(currentUser.name);
+        setDescription(currentUser.about);
+    }, [currentUser]);
+
+    function handleChangeName(evt) {
+        setName(evt.target.value);
+    }
+
+    function handleChangeDescription(evt) {
+        setDescription(evt.target.value);
+    }
+
+    function handleSubmit(evt) {
+        evt.preventDefault();
+
+        onUpdateUser({
+            name,
+            about: description
+        });
+    }
+
+
     return (
         <PopupWithForm
             title="Редактировать профиль"
@@ -10,6 +44,7 @@ export default function EditProfilePopup({ isOpen, onClose }) {
             btnText="Сохранить"
             isOpen={isOpen}
             onClose={onClose}
+            onSubmit={handleSubmit}
         >
             <input
                 type="text"
@@ -18,7 +53,8 @@ export default function EditProfilePopup({ isOpen, onClose }) {
                 autoComplete="off"
                 name="name"
                 placeholder="Имя пользователя"
-                value=""
+                value={name || ''}
+                onChange={handleChangeName}
                 required
                 className="popup__item"
                 id="popupName"
@@ -32,7 +68,8 @@ export default function EditProfilePopup({ isOpen, onClose }) {
                 autoComplete="off"
                 name="about"
                 placeholder="О себе"
-                value=""
+                value={description || ''}
+                onChange={handleChangeDescription}
                 required
                 className="popup__item"
                 id="popupAboutMe"

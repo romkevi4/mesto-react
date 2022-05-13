@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useRef } from 'react';
+
 import PopupWithForm from './PopupWithForm';
 
 
-export default function EditAvatarPopup({ isOpen, onClose }) {
+
+
+export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+    const avatarRef = useRef();
+
+
+    function handleSubmit(evt) {
+        evt.preventDefault();
+
+        onUpdateAvatar({
+            avatar: avatarRef.current
+        });
+    }
+
+
     return (
         <PopupWithForm
             title="Обновить аватар"
@@ -10,13 +25,14 @@ export default function EditAvatarPopup({ isOpen, onClose }) {
             btnText="Сохранить"
             isOpen={isOpen}
             onClose={onClose}
+            onSubmit={handleSubmit}
         >
             <input
                 type="url"
                 autoComplete="off"
                 name="avatar"
                 placeholder="Ссылка на аватар профиля"
-                value=""
+                ref={avatarRef}
                 required
                 className="popup__item"
                 id="popupLinkAvatar"

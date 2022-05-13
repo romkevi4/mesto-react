@@ -1,7 +1,8 @@
 import { identificationData } from './initialData';
 
+
 // =============================== Формирование класса для работы с API ===============================
-export class Api {
+class Api {
     constructor({ serverAddress, token, cohort }) {
         this._serverAddress = serverAddress;
         this._token = token;
@@ -80,7 +81,7 @@ export class Api {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
-                name: objectWithCardData.title,
+                name: objectWithCardData.name,
                 link: objectWithCardData.link
             })
         })
@@ -113,7 +114,7 @@ export class Api {
             .then(this._processResponseData);
     }
 
-    // Запрос на снятие лайка с карточки
+// Запрос на снятие лайка с карточки
     removeLikeOfCard(cardId, user) {
         return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: 'DELETE',
